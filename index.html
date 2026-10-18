@@ -1,0 +1,45 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>PARAKH API Test</title>
+</head>
+<body>
+  <h2>PARAKH Offer Analysis Test</h2>
+  <button onclick="testAPI()">Analyze Sample Offer</button>
+  <pre id="result">Click the button to test the API.</pre>
+
+  <script>
+    async function testAPI() {
+      const result = document.getElementById("result");
+      result.textContent = "Analyzing...";
+
+      try {
+        const response = await fetch(
+          "http://localhost:8080/api/offers/analyze",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+              offerText:
+                "Congratulations! Pay registration fee to get guaranteed job. Act immediately.",
+              company: "Example Company",
+              recruiterEmail: "recruiter@gmail.com"
+            })
+          }
+        );
+
+        const data = await response.json();
+        result.textContent = JSON.stringify(data, null, 2);
+      } catch (error) {
+        result.textContent =
+          "Request failed. Check that the Spring Boot backend is running.\n" +
+          error.message;
+      }
+    }
+  </script>
+</body>
+</html>
